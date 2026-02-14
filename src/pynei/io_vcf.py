@@ -96,7 +96,8 @@ def _open_vcf(fpath):
 
 @functools.lru_cache
 def _parse_allele(allele):
-    if allele == b".":
+    
+    if allele == b"." or allele ==b"./.\n" or allele ==".|.":
         return True, MISSING_ALLELE
     else:
         allele = int(allele)
@@ -123,6 +124,7 @@ def _parse_gt(gt):
     except ValueError:
         pass
     is_phased = not is_phased
+    
     return is_phased, tuple(map(_parse_allele, gt.split(other_sep)))
 
 
